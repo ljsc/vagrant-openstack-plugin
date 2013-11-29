@@ -1,13 +1,13 @@
 module VagrantPlugins
   module OpenStack
     module Action
-      class IsCreated
+      class IsPaused
         def initialize(app, env)
           @app = app
         end
 
         def call(env)
-          env[:result] = env[:machine].state.id == :active
+          env[:result] = env[:machine].state.id == :paused
           @app.call(env)
         end
       end

@@ -2,6 +2,10 @@ en:
   vagrant_openstack:
     already_created: |-
       The server is already created.
+    already_paused: |-
+      The server is already paused.
+    already_suspended: |-
+      The server is already suspended.
     deleting_server: |-
       Deleting server...
     finding_flavor: |-
@@ -10,14 +14,26 @@ en:
       Finding image for server...
     finding_network: |-
       Finding network for server...
+    hard_rebooting_server: |-
+      Hard rebooting server instance.
     launching_server: |-
       Launching a server with the following settings...
     not_created: |-
       The server hasn't been created yet. Run `vagrant up` first.
+    pausing_server: |-
+      The server instance has been paused.
     ready: |-
       The server is ready!
+    rebooting_server: |-
+      This server instance is rebooting!
+    resuming_server: |-
+      The server instance has been resumed.
     rsync_folder: |-
       Rsyncing folder: %{hostpath} => %{guestpath}
+    server_running: |-
+        The instance '%{name}' is already running!
+    suspending_server: |-
+      The server instance has been suspended!
     waiting_for_build: |-
       Waiting for the server to be built...
     waiting_for_ssh: |-
@@ -26,6 +42,9 @@ en:
       Warning! The OpenStack provider doesn't support any of the Vagrant
       high-level network configurations (`config.vm.network`). They
       will be silently ignored.
+    will_not_destroy: |-
+        The instance '%{name}' will not be destroyed, since the confirmation
+        was declined.
 
     config:
       api_key_required: |-

@@ -93,7 +93,7 @@ module VagrantPlugins
               # If we don't have an error about a state transition, then
               # we just move on.
               raise if e.message !~ /should have transitioned/
-              raise Errors::CreateBadState, :state => server.state
+              raise Errors::CreateBadState, :state => server.state.downcase
             end
           end
 

@@ -13,8 +13,10 @@ module VagrantPlugins
         def call(env)
           if env[:machine].id
             env[:ui].info(I18n.t("vagrant_openstack.suspending_server"))
+
+            # TODO: Validate the fact that we get a server back from the API.
             server = env[:openstack_compute].servers.get(env[:machine].id)
-            server.suspend
+            env[:openstack_compute].suspend_server(server.id)
           end
 
           @app.call(env)

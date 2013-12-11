@@ -32,6 +32,11 @@ module VagrantPlugins
         require_relative "provider"
         Provider
       end
+
+      command('snapshot') do
+        require File.expand_path('../commands/snapshot/root.rb', __FILE__)
+        Command::Root
+      end
     end
   end
 end

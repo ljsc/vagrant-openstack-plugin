@@ -19,7 +19,6 @@ module VagrantPlugins
           ssh_info = env[:machine].ssh_info
 
           env[:machine].config.vm.synced_folders.each do |id, data|
-
             # ignore disabled shared folders
             if data[:disabled]
               @logger.info "Not syncing disabled folder: #{data[:hostpath]} => #{data[:guestpath]}"
@@ -42,11 +41,14 @@ module VagrantPlugins
             env[:machine].communicate.sudo(
               "chown #{ssh_info[:username]} '#{guestpath}'")
 
+            #collect rsync excludes specified :rsync_excludes=>['path1',...] in synced_folder options
+            excludes = ['.vagrant/', 'Vagrantfile', *Array(data[:rsync_excludes])].uniq
+
             # Rsync over to the guest path using the SSH info
             command = [
-              "rsync", "--verbose", "--archive", "-z", "--delete",
-              "--exclude", ".vagrant/",
-              "-e", "ssh -p #{ssh_info[:port]} -o StrictHostKeyChecking=no -i '#{ssh_info[:private_key_path]}'",
+              'rsync', '--verbose', '--archive', '-z',
+              *excludes.map{|e|['--exclude', e]}.flatten,
+              '-e', "ssh -p #{ssh_info[:port]} -o StrictHostKeyChecking=no #{ssh_key_options(ssh_info)}",
               hostpath,
               "#{ssh_info[:username]}@#{ssh_info[:host]}:#{guestpath}"]
 
@@ -58,6 +60,13 @@ module VagrantPlugins
                 :stderr => r.stderr
             end
           end
+        end
+
+        private
+
+        def ssh_key_options(ssh_info)
+          # Ensure that `private_key_path` is an Array (for Vagrant < 1.4)
+          Array(ssh_info[:private_key_path]).map { |path| "-i '#{path}'" }.join          
         end
       end
     end

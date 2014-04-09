@@ -96,6 +96,11 @@ module VagrantPlugins
       # @return [String]
       attr_accessor :proxy
 
+      # Verify the SSL certificate.
+      #
+      # @return [TrueClass, FalseClass]
+      attr_accessor :ssl_verify
+
       def initialize
         @api_key  = UNSET_VALUE
         @endpoint = UNSET_VALUE
@@ -116,6 +121,7 @@ module VagrantPlugins
         @floating_ip = UNSET_VALUE
         @region = UNSET_VALUE
         @proxy = UNSET_VALUE
+        @ssl_verify = UNSET_VALUE
       end
 
       def finalize!
@@ -146,6 +152,7 @@ module VagrantPlugins
 
         @region = nil if @region == UNSET_VALUE
         @proxy = nil if @proxy == UNSET_VALUE
+        @ssl_verify = true if @ssl_verify == UNSET_VALUE
       end
 
       def validate(machine)

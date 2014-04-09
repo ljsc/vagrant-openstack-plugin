@@ -24,7 +24,10 @@ module VagrantPlugins
 
           # Pass proxy config down into the Fog::Connection object using
           # the `connection_options` hash.
-          connection_options = { :proxy => config.proxy }
+          connection_options = { 
+            proxy: config.proxy, 
+            ssl_verify_peer: config.ssl_verify
+          }
 
           @logger.info("Connecting to OpenStack...")
           @logger.debug("API connection params: #{connection_options.inspect}")
